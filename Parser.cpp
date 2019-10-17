@@ -105,6 +105,20 @@ network read_network(string s)
 		if(find==1)
 		myfile.close();
 	}
+	vector<string> v;
+	v.clear();
+
+	for(int i=0;i<Alarm.netSize();++i)
+	{
+
+		for(int j=0;j<Alarm.get_nth_node(i)->get_Parents().size();++j)
+		{
+			int index = Alarm.get_index(Alarm.get_nth_node(i)->get_Parents().at(j));
+			Alarm.get_nth_node(i)->indexParents.push_back(index);
+		}
+		Alarm.get_nth_node(i)->set_Parents(v);
+	}
+
 	
 	return Alarm;
 }

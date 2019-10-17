@@ -27,8 +27,19 @@ int main(int argc, char* argv[])
 				b.at(j) += 1;
 		}
 	}
-	sort(b.begin(), b.end());
-	for(int i=0;i<b.size();++i)
-		cout<<b.at(i)<<"\n";
+
+	for(int i=0;i<Alarm.netSize();++i)
+	{
+		cout<<Alarm.get_nth_node(i)->get_name()<<" ";
+	}
+	cout<<"\n";
+	for(int i=0;i<Alarm.netSize();++i)
+	{
+		for(int j=0;j<Alarm.get_nth_node(i)->indexParents.size();++j)
+		{
+			cout<<Alarm.get_nth_node(i)->indexParents.at(j)<<" ";
+		}
+		cout<<"\n";
+	}
 	return 0;
 }
