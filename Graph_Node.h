@@ -16,6 +16,9 @@ class Graph_Node
 		vector<float> CPT; // conditional probability table as a 1-d array . Look for BIF format to understand its meaning
 
 	public:
+		vector<int> indexParents;
+		vector<float> observations;
+		vector<float> CPT_temp;
 		Graph_Node(string, int, vector<string>);
 		string get_name();
 		vector<int> get_children();
@@ -26,5 +29,4 @@ class Graph_Node
 		void set_CPT(vector<float>);
 		void set_Parents(vector<string>);
 		int add_child(int);
-
 };
