@@ -6,12 +6,12 @@
 // Format checker just assumes you have Alarm.bif and Solved_Alarm.bif (your file) in current directory
 using namespace std;
 
-network read_network()
+network read_network(string s)
 {
 	network Alarm;
 	string line;
 	int find=0;
-	ifstream myfile("alarm.bif"); 
+	ifstream myfile(s); 
 	string temp;
 	string name;
 	vector<string> values;
@@ -58,8 +58,8 @@ network read_network()
 					ss>>temp;
 					ss>>temp;
 					
-					list<Graph_Node>::iterator listIt;
-					list<Graph_Node>::iterator listIt1;
+					vector<Graph_Node>::iterator listIt;
+					vector<Graph_Node>::iterator listIt1;
 					listIt=Alarm.search_node(temp);
 					int index=Alarm.get_index(temp);
 					ss>>temp;
