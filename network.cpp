@@ -28,15 +28,15 @@ int network::get_index(string val_name)
 // get the node at nth index
 vector<Graph_Node>::iterator network::get_nth_node(int n)
 {
-	vector<Graph_Node>::iterator listIt;
-	int count=0;
-	for(listIt=Pres_Graph.begin();listIt!=Pres_Graph.end();listIt++)
-	{
-		if(count==n)
-			return listIt;
-		count++;
-	}
-	return listIt; 
+	return Pres_Graph.begin()+n;
+	// int count=0;
+	// for(listIt=Pres_Graph.begin();listIt!=Pres_Graph.end();listIt++)
+	// {
+	// 	if(count==n)
+	// 		return listIt;
+	// 	count++;
+	// }
+	// return listIt; 
 }
 
 //get the iterator of a node with a given name
