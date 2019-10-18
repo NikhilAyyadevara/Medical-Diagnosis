@@ -117,6 +117,7 @@ network read_network(string s)
 			Alarm.get_nth_node(i)->indexParents.push_back(index);
 		}
 		Alarm.get_nth_node(i)->set_Parents(v);
+		// sort(Alarm.get_nth_node(i)->indexParents.begin(), Alarm.get_nth_node(i)->indexParents.end());
 	}
 
 	
