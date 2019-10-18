@@ -68,6 +68,7 @@ void Graph_Node::updateCPT(int n)
 	for(int i=0;i<observations.size();++i)
 	{
 		CPT.push_back(observations.at(i)/total.at(i%n));
+		observations.at(i)=0;
 	}
 }
 
