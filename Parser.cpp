@@ -39,12 +39,13 @@ network read_network(string s)
 					for(int i=0;i<4;i++)
 					{
 						ss2>>temp;
+						cout<<temp<<"\n";
 					}
 					values.clear();
 					while(temp.compare("};")!=0)
 					{
 						values.push_back(temp);
-						
+						cout<<temp<<"\n";
 						ss2>>temp;
 					}
 					Graph_Node new_node(name,values.size(),values);
