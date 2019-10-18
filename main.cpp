@@ -57,12 +57,13 @@ int main(int argc, char* argv[])
 	cout << "initialization done!" <<"\n";
 	Alarm.updateCPTs();
 
+	vector<pair<string, vector<float> > > cpt;
 	for(int i=0;i<Alarm.netSize();++i)
 	{
-		Alarm.get_nth_node(i)->printCPT();
+		cpt.push_back(make_pair(Alarm.get_nth_node(i)->get_name(), Alarm.get_nth_node(i)->get_CPT()));
 	}
 
-
+	out(argv[1], cpt);
 
 	return 0;
 }
