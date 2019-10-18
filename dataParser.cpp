@@ -16,7 +16,7 @@ vector<vector<string> > readData(int nodes, string file)
 		data.push_back(v);
 		for(int i=0;i<nodes;++i)
 		{
-			data.at(line).push_back(s.substr(1,s.length()-2));
+			data.at(line).push_back(s);
 			if(i<nodes-1)
 				fin>>s;
 		}
