@@ -45,6 +45,25 @@ void Graph_Node::set_CPT(vector<float> new_CPT)
 {
 	CPT.clear();
 	CPT=new_CPT;
+	for(int i=0;i<new_CPT.size();++i)
+	{
+		observations.push_back(0);
+	}
+}
+
+void Graph_Node::updateCPT()
+{
+	CPT.clear();
+	float total=0;
+	for(int i=0;i<observations.size();++i)
+	{
+		total += observations.at(i);
+	}
+
+	for(int i=0;i<observations.size();++i)
+	{
+		CPT.push_back(observations.at(i)/total);
+	}
 }
 
 void Graph_Node::set_Parents(vector<string> Parent_Nodes)
@@ -63,4 +82,32 @@ int Graph_Node::add_child(int new_child_index )
 	}
 	Children.push_back(new_child_index);
 	return 1;
+}
+
+int Graph_Node::get_value_index(string val)
+{
+	for(int i=0;i<nvalues;++i)
+	{
+		if(val==values.at(i))
+			return i;
+	}
+	return -1;
+}
+
+void Graph_Node::printCPT()
+{
+	for(int i=0;i<CPT.size();++i)
+	{
+		cout<<CPT.at(i)<<" ";
+	}
+	cout<<"\n";
+}
+
+void Graph_Node::printObservations()
+{
+	for(int i=0;i<observations.size();++i)
+	{
+		cout<<observations.at(i)<<" ";
+	}
+	cout<<"\n";
 }

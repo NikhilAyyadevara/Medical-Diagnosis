@@ -10,36 +10,57 @@ int main(int argc, char* argv[])
 	Alarm=read_network(file);
     file = argv[2];
 // Example: to do something
-	vector<vector<string> > v = readData(Alarm.netSize(),file);
+	vector<vector<string> > data = readData(Alarm.netSize(),file);
 	// cout<<v.size()<<"\n";
-	vector<int> b;
-	for(int i=0;i<Alarm.netSize();++i)
+
+	for(int i=0;i<data.size();++i)
 	{
-		b.push_back(0);
-	}
-	int l=0;
-	for(int i=0;i<v.size();++i)
-	{
-		// cout<<v[i].size()<<"\n";
-		for(int j=0;j<v.at(i).size();++j)
+		for(int j=0;j<Alarm.netSize();++j)
 		{
-			if(v[i][j]=="?")
-				b.at(j) += 1;
+			vector<int> parents = Alarm.get_nth_node(j)->indexParents;
+			int val = Alarm.get_nth_node(j)->get_value_index(data.at(i).at(j));
+			vector<int> vals;
+			vector<int> nvals;
+			if(val!=-1)
+			{
+				vals.push_back(val);
+				nvals.push_back(Alarm.get_nth_node(j)->get_nvalues());
+				for(int k=0;k<parents.size();++k)
+				{
+					if(Alarm.get_nth_node(parents.at(k))->get_value_index(data.at(i).at(parents.at(k)))!=-1)
+					{
+						vals.push_back(Alarm.get_nth_node(parents.at(k))->get_value_index(data.at(i).at(parents.at(k))));
+						nvals.push_back(Alarm.get_nth_node(parents.at(k))->get_nvalues());
+					}
+				}
+				nvals.push_back(1);
+			}
+
+			for(int k=nvals.size()-2;k>0;--k)
+			{
+				nvals.at(k) = nvals.at(k)*nvals.at(k+1);
+			}
+			if(nvals.size()>0)
+				nvals.erase(nvals.begin());
+
+			int x = 0;
+
+			for(int k=0;k<nvals.size();++k)
+			{
+				x += (nvals.at(k))*vals.at(k);
+			}
+
+			Alarm.get_nth_node(j)->observations.at(x)++;
 		}
 	}
 
 	for(int i=0;i<Alarm.netSize();++i)
 	{
-		cout<<Alarm.get_nth_node(i)->get_name()<<" ";
+		Alarm.get_nth_node(i)->updateCPT();
+		Alarm.get_nth_node(i)->printCPT();
 	}
-	cout<<"\n";
-	for(int i=0;i<Alarm.netSize();++i)
-	{
-		for(int j=0;j<Alarm.get_nth_node(i)->indexParents.size();++j)
-		{
-			cout<<Alarm.get_nth_node(i)->indexParents.at(j)<<" ";
-		}
-		cout<<"\n";
-	}
+
+
+
 	return 0;
 }
