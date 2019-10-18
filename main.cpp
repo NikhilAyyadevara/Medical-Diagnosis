@@ -21,6 +21,7 @@ int main(int argc, char* argv[])
 			int val = Alarm.get_nth_node(j)->get_value_index(data.at(i).at(j));
 			vector<int> vals;
 			vector<int> nvals;
+				// cout << "hi" << endl;
 			if(val!=-1)
 			{
 				vals.push_back(val);
@@ -31,6 +32,12 @@ int main(int argc, char* argv[])
 					{
 						vals.push_back(Alarm.get_nth_node(parents.at(k))->get_value_index(data.at(i).at(parents.at(k))));
 						nvals.push_back(Alarm.get_nth_node(parents.at(k))->get_nvalues());
+					}
+					else
+					{
+						nvals.clear();
+						vals.clear();
+						break;
 					}
 				}
 				nvals.push_back(1);
@@ -49,8 +56,8 @@ int main(int argc, char* argv[])
 			{
 				x += (nvals.at(k))*vals.at(k);
 			}
-
-			Alarm.get_nth_node(j)->observations.at(x)++;
+			if(vals.size()>0)
+				Alarm.get_nth_node(j)->observations.at(x)++;
 		}
 	}
 
@@ -60,6 +67,8 @@ int main(int argc, char* argv[])
 	vector<pair<string, vector<float> > > cpt;
 	for(int i=0;i<Alarm.netSize();++i)
 	{
+		// cout<<Alarm.get_nth_node(i)->get_name()<<" ";
+		// Alarm.get_nth_node(i)->printObservations();
 		cpt.push_back(make_pair(Alarm.get_nth_node(i)->get_name(), Alarm.get_nth_node(i)->get_CPT()));
 	}
 
