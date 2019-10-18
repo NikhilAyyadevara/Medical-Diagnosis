@@ -51,18 +51,23 @@ void Graph_Node::set_CPT(vector<float> new_CPT)
 	}
 }
 
-void Graph_Node::updateCPT()
+void Graph_Node::updateCPT(int n)
 {
 	CPT.clear();
-	float total=0;
-	for(int i=0;i<observations.size();++i)
+	vector<float> total;
+	for(int i=0;i<n;++i)
 	{
-		total += observations.at(i);
+		float x = 0;
+		for(int j=i;j<observations.size();j+=n)
+		{
+			x += observations.at(j);
+		}
+		total.push_back(x);
 	}
 
 	for(int i=0;i<observations.size();++i)
 	{
-		CPT.push_back(observations.at(i)/total);
+		CPT.push_back(observations.at(i)/total.at(i%n));
 	}
 }
 

@@ -52,3 +52,17 @@ vector<Graph_Node>::iterator network::search_node(string val_name)
 		cout<<"node not found\n";
 	return listIt;
 }
+
+void network::updateCPTs()
+{
+	int n = 0;
+	for(int i=0;i<Pres_Graph.size();++i)
+	{
+		n = 1;
+		for(int j=0;j<Pres_Graph.at(i).indexParents.size();++j)
+		{
+			n = n*Pres_Graph.at(Pres_Graph.at(i).indexParents.at(j)).get_nvalues();
+		}
+		Pres_Graph.at(i).updateCPT(n);
+	}
+}

@@ -54,9 +54,11 @@ int main(int argc, char* argv[])
 		}
 	}
 
+	cout << "initialization done!" <<"\n";
+	Alarm.updateCPTs();
+
 	for(int i=0;i<Alarm.netSize();++i)
 	{
-		Alarm.get_nth_node(i)->updateCPT();
 		Alarm.get_nth_node(i)->printCPT();
 	}
 

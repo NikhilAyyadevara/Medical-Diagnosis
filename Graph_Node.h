@@ -29,7 +29,7 @@ class Graph_Node
 		void set_CPT(vector<float>);
 		void set_Parents(vector<string>);
 		int add_child(int);
-		void updateCPT();
+		void updateCPT(int);
 		int get_value_index(string);
 		void printCPT();
 		void printObservations();

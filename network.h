@@ -11,4 +11,5 @@ class network
 		int get_index(string);
 		vector<Graph_Node>::iterator get_nth_node(int);
 		vector<Graph_Node>::iterator search_node(string);
+		void updateCPTs();
 };
