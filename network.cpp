@@ -66,3 +66,11 @@ void network::updateCPTs()
 		Pres_Graph.at(i).updateCPT(n);
 	}
 }
+
+void network::setInitialObs()
+{
+	for(int i=0;i<Pres_Graph.size();++i)
+	{
+		Pres_Graph.at(i).setInitialObservations();
+	}
+}

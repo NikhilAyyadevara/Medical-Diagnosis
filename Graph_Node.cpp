@@ -26,7 +26,7 @@ vector<string> Graph_Node::get_Parents()
 	return Parents;
 }
 
-vector<float> Graph_Node::get_CPT()
+vector<double> Graph_Node::get_CPT()
 {
 	return CPT;
 }
@@ -41,23 +41,39 @@ vector<string> Graph_Node::get_values()
 	return values;
 }
 
-void Graph_Node::set_CPT(vector<float> new_CPT)
+void Graph_Node::set_CPT(vector<double> new_CPT)
 {
-	CPT.clear();
-	CPT=new_CPT;
+	//CPT.clear();
+	
 	for(int i=0;i<new_CPT.size();++i)
 	{
-		observations.push_back(0.1);
+		CPT.push_back(new_CPT.at(i));
+		observations.push_back(1);
+		initialObservations.push_back(0);
 	}
+}
+
+void Graph_Node::setInitialObservations()
+{
+	for(int i=0;i<observations.size();++i)
+	{
+		initialObservations.at(i) = observations.at(i)-1;
+	}
+	
 }
 
 void Graph_Node::updateCPT(int n)
 {
-	CPT.clear();
-	vector<float> total;
+	// CPT.clear();
+	vector<double> total;
+	for(int i=0;i<observations.size();++i)
+	{
+			observations.at(i)+=0.1;//smoothing
+	}
+
 	for(int i=0;i<n;++i)
 	{
-		float x = 0;
+		double x = 0;
 		for(int j=i;j<observations.size();j+=n)
 		{
 			x += observations.at(j);
@@ -65,10 +81,11 @@ void Graph_Node::updateCPT(int n)
 		total.push_back(x);
 	}
 
+
 	for(int i=0;i<observations.size();++i)
 	{
-		CPT.push_back(observations.at(i)/total.at(i%n));
-		observations.at(i)=0.01;
+		CPT.at(i)=(observations.at(i)/total.at(i%n));
+		observations.at(i) = initialObservations.at(i);
 	}
 }
 

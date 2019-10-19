@@ -83,7 +83,7 @@ network read_network(string s)
 					
 					ss2>> temp;
 					
-					vector<float> curr_CPT;
+					vector<double> curr_CPT;
 					string::size_type sz;
 					while(temp.compare(";")!=0)
 					{	
