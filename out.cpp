@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void out(string ino, vector<pair<string, vector<float> > > cpt){
+void out(string ino, vector<pair<string, vector<double> > > cpt){
 	ifstream f;
 	f.open(ino);
 	fstream outfile;
@@ -15,12 +15,13 @@ void out(string ino, vector<pair<string, vector<float> > > cpt){
 			stringstream ss;
 			getline (f,line);
 			ss.str(line);
-			outfile << line << "\n";
+			if(line!="")
+				outfile << line << "\n";
 			ss>>temp;
 			if(temp.compare("probability")==0){
 				ss>>temp;
 				ss>>temp;
-				vector<float> p;
+				vector<double> p;
 				for (int i = 0; i < cpt.size(); ++i){
 					if(cpt[i].first==temp){
 						p = cpt[i].second;
@@ -51,6 +52,5 @@ void out(string ino, vector<pair<string, vector<float> > > cpt){
 	}
 
 }
-
 
 
