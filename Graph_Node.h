@@ -34,4 +34,5 @@ class Graph_Node
 		void printCPT();
 		void printObservations();
 		void setInitialObservations();
+		void initializeObservations();
 };

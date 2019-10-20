@@ -48,7 +48,7 @@ void Graph_Node::set_CPT(vector<double> new_CPT)
 	for(int i=0;i<new_CPT.size();++i)
 	{
 		CPT.push_back(new_CPT.at(i));
-		observations.push_back(1);
+		observations.push_back(1); //initial smoothing by 1
 		initialObservations.push_back(0);
 	}
 }
@@ -57,19 +57,20 @@ void Graph_Node::setInitialObservations()
 {
 	for(int i=0;i<observations.size();++i)
 	{
-		initialObservations.at(i) = observations.at(i)-1;
+		initialObservations.at(i) = observations.at(i)-0.9; //smoothing coefficient m = 0.1
 	}
 	
+}
+
+void Graph_Node::initializeObservations()
+{
+	observations = initialObservations;
 }
 
 void Graph_Node::updateCPT(int n)
 {
 	// CPT.clear();
 	vector<double> total;
-	for(int i=0;i<observations.size();++i)
-	{
-			observations.at(i)+=0.1;//smoothing
-	}
 
 	for(int i=0;i<n;++i)
 	{
@@ -85,7 +86,7 @@ void Graph_Node::updateCPT(int n)
 	for(int i=0;i<observations.size();++i)
 	{
 		CPT.at(i)=(observations.at(i)/total.at(i%n));
-		observations.at(i) = initialObservations.at(i);
+		// observations.at(i) = initialObservations.at(i);
 	}
 }
 
