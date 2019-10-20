@@ -40,7 +40,7 @@ void out(string ino, vector<pair<string, vector<double> > > cpt){
 					if(temp2=="table"){
 						outfile << "\t"<<"table" << " ";
 						for(int k=0;k<p.size();k++){
-							outfile  << p[k] << " ";
+							outfile << fixed << setprecision(4) << p[k] << " ";
 						}
 						outfile << ";" <<"\n";
 					}
