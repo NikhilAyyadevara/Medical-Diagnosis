@@ -74,3 +74,11 @@ void network::setInitialObs()
 		Pres_Graph.at(i).setInitialObservations();
 	}
 }
+
+void network::initialization()
+{
+	for(int i=0;i<Pres_Graph.size();++i)
+	{
+		Pres_Graph.at(i).initializeObservations();
+	}
+}

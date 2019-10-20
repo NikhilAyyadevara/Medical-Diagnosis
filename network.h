@@ -13,4 +13,5 @@ class network
 		vector<Graph_Node>::iterator search_node(string);
 		void updateCPTs();
 		void setInitialObs();
+		void initialization();
 };
