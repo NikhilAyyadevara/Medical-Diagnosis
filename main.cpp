@@ -14,9 +14,12 @@ int main(int argc, char* argv[])
 	vector<vector<string> > data = readData(Alarm.netSize(),file);
 
 	vector<pair<int, int> > questionMarks; //pair of line, node-index.
+	vector<vector<int> > questionMarkNodes;
 
 	for(int i=0;i<data.size();++i)
 	{
+		vector<int> v;
+		questionMarkNodes.push_back(v);
 		for(int j=0;j<Alarm.netSize();++j)
 		{
 			vector<int> parents = Alarm.get_nth_node(j)->indexParents;
@@ -27,6 +30,7 @@ int main(int argc, char* argv[])
 			if(val==-1)
 			{
 				questionMarks.push_back(make_pair(i, j));
+				questionMarkNodes.at(i).push_back(j);
 			}
 			if(val!=-1)
 			{
@@ -44,6 +48,7 @@ int main(int argc, char* argv[])
 						nvals.clear();
 						vals.clear();
 						questionMarks.push_back(make_pair(i, j));
+						questionMarkNodes.at(i).push_back(j);
 						break;
 					}
 				}
@@ -75,6 +80,71 @@ int main(int argc, char* argv[])
 
 	while(chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now()-start).count()<115000)
 	{
+		Alarm.initialization();
+		
+		for(int i=0;i<questionMarkNodes.size();++i)
+		{
+			int line = i;
+			for(int j=0;j<questionMarkNodes.at(i).size();++j)
+			{
+				int node = questionMarkNodes.at(i).at(j);
+				vector<int> parents = Alarm.get_nth_node(node)->indexParents;
+				int val = Alarm.get_nth_node(node)->get_value_index(data.at(line).at(node));
+				vector<int> vals;
+				vector<int> nvals;
+				vector<int> nvalss;
+				int qmark = -1;
+				if(val==-1)
+				{
+					qmark = 0;
+				}
+				vals.push_back(val);
+				nvals.push_back(Alarm.get_nth_node(node)->get_nvalues());
+				for(int j=0;j<parents.size();++j)
+				{
+					nvals.push_back(Alarm.get_nth_node(parents.at(j))->get_nvalues());
+					vals.push_back(Alarm.get_nth_node(parents.at(j))->get_value_index(data.at(line).at(parents.at(j))));
+					if(Alarm.get_nth_node(parents.at(j))->get_value_index(data.at(line).at(parents.at(j)))==-1)
+					{
+						qmark = (j+1);
+					}
+				}
+				nvalss = nvals;
+				nvals.push_back(1);
+				for(int k=nvals.size()-2;k>0;--k)
+				{
+					nvals.at(k) = nvals.at(k)*nvals.at(k+1);
+				}
+				if(nvals.size()>0)
+					nvals.erase(nvals.begin());
+
+				int x = 0;
+				for(int k=0;k<nvals.size();++k)
+				{
+					if(vals.at(k)>=0)
+						x += (nvals.at(k))*vals.at(k);
+				}
+				int abc = 0;
+				while(abc<nvalss.at(qmark))
+				{
+					Alarm.get_nth_node(node)->observations.at(x) += Alarm.get_nth_node(node)->get_CPT().at(x);
+					x+=nvals.at(qmark);
+					abc++;
+				}
+			}
+			for(int j=0;j<questionMarkNodes.at(i).size();++j)
+			{
+				int n = 1;
+				for(int k=0;k<Alarm.get_nth_node(questionMarkNodes.at(i).at(j))->indexParents.size();++k)
+				{
+					n = n*Alarm.get_nth_node(Alarm.get_nth_node(questionMarkNodes.at(i).at(j))->indexParents.at(k))->get_nvalues();
+				}
+				Alarm.get_nth_node(questionMarkNodes.at(i).at(j))->updateCPT(n);
+			}
+			//Alarm.updateCPTs();
+		}
+
+		/*
 		for(int i=0;i<questionMarks.size();++i)
 		{
 			int line = questionMarks.at(i).first;
@@ -125,6 +195,7 @@ int main(int argc, char* argv[])
 		}
 
 		Alarm.updateCPTs();
+		*/
 		count++;
 	}
 
